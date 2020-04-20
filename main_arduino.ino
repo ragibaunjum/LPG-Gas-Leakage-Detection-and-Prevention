@@ -1,22 +1,17 @@
 #include <Servo.h>
 #include <DFRobot_sim808.h>
 #include <SoftwareSerial.h>
-
 #define PHONE_NUMBER "01000000000" //Enter Mobile Number
 #define MESSAGE  "Turn off the gas stove knob"
 DFRobot_SIM808 sim808(&Serial);
-
 Servo myservo1, myservo2;
 
 boolean flag1 = false;
 int count = 1;
-
 int sensorThres = 100;
 char state;
-
 int buzzer = 13;
 int lpgA0 = A0;
-
 int human = -1;
 int fire = -1;
 
@@ -29,14 +24,12 @@ void setup() {
   myservo1.write(90);
   myservo2.write(90);
 }
-
 void loop() {
   if (Serial.available()) {
     state = Serial.read();
     Serial.println(state);
     Serial.flush();
   }
-  
   switch (state) {
     case 's':
       human = 1;
@@ -61,9 +54,7 @@ void loop() {
         digitalWrite(buzzer, LOW);
         gsm();
         break;
-
     }
-
     switch (fire) {
       case 1:
         Serial.println("IN FIRE!!!!");
@@ -75,17 +66,12 @@ void loop() {
       case 0:
         digitalWrite(buzzer, LOW);
     }
-
-
   }
-
 }
-
 void alarm() {
   digitalWrite(buzzer, HIGH);
   Serial.println("alarm");
 }
-
 void gsm() {
   Serial.println("in gsm");
   if (flag1 == true) {
@@ -97,5 +83,4 @@ void gsm() {
       count = count + 1;
     }
   }
-
 }
